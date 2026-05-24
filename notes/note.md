@@ -294,10 +294,189 @@ nav .menu a {
 ### 💻 Current Browser Output
 ![Current Output — Chomok Portfolio Navbar](current-output-navbar.png)
 
+---
 
+## 🦸 Step 6 — Hero / Banner Section (HTML Structure)
 
+The banner is the first big visual section below the navbar. Looking at the Figma design it has two sides:
+- **Left:** Text content — greeting, name, description, two buttons
+- **Right:** Profile photo
 
+### Why `<section>` inside `<header>`?
+The entire top of the page (nav + hero) shares the same background colour and background images, so wrapping both inside `<header>` keeps them visually unified with one background declaration.
 
+### HTML Structure
 
+```html
+<section id="banner">
+    <div class="banner-content">
+        <h2>Hi, I am</h2>
+        <h1>Arman Danesh Chomok</h1>
+        <p>Your description text here...</p>
+        <div>
+            <button class="btn">Download CV</button>
+            <button class="btn">Contact</button>
+        </div>
+    </div>
+    <div class="banner-image">
+        <img src="images/chomok.png" alt="">
+    </div>
+</section>
+```
 
+### Why `id="banner"` instead of a class?
+- There is only **one** hero section on the page — `id` is for unique elements
+- It also lets you use it as an **anchor link** later: `<a href="#banner">`
+- CSS targets it with `#banner { }` (hash = id selector)
 
+### Why `<h2>` for "Hi, I am" and `<h1>` for the name?
+- `<h1>` is the most important heading on the page — your **name** is the primary thing people should read
+- `<h2>` for the greeting sits above it visually but is secondary in importance
+- Only one `<h1>` per page is best practice for SEO
+
+---
+
+## 🎨 Step 7 — Hero / Banner CSS
+
+### 7.1 Background Images on Header
+
+```css
+header {
+    background-color: #FFF8F3;
+    padding-top: 50px;
+    background: url("../images/developer.png"), url("../images/header_bg.png"), #FFF8F3;
+    background-position: top left, bottom right;
+    background-repeat: no-repeat;
+}
+```
+
+| Property | What it does |
+|---|---|
+| Multiple `url()` values | Layers two images on top of each other + fallback colour |
+| `../images/` | `..` goes one folder UP from `Styles/` to reach `images/` |
+| `background-position: top left, bottom right` | First image pinned top-left, second pinned bottom-right |
+| `background-repeat: no-repeat` | Stops images from tiling/repeating |
+
+> **`../` means "go up one folder."** Since `portfolio.css` lives inside `Styles/`, you need `../images/` to get back to the root and into the `images/` folder.
+
+### 7.2 Banner Layout
+
+```css
+#banner {
+    margin: 47px 38px 0 230px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+```
+
+> `margin: 47px 38px 0 230px` — top 47px, right 38px, bottom 0, **left 230px**. The large left margin pushes content away from the "Developer" watermark image on the left edge.
+
+### 7.3 Banner Content Width
+
+```css
+#banner .banner-content {
+    width: 540px;
+}
+```
+
+> Fixed width keeps the text block from stretching too wide, so it stays readable and matches the Figma layout proportions.
+
+### 7.4 Heading Styles
+
+```css
+#banner .banner-content h2 {
+    font-size: 30px;
+    font-weight: 600;
+    color: #474747;
+}
+#banner .banner-content h1 {
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 20px;
+}
+```
+
+> Both are `30px` but different weights — `600` for the greeting (medium), `bold` (700) for the name. This creates visual hierarchy without changing size.
+
+### 7.5 Description Paragraph
+
+```css
+#banner .banner-content p {
+    font-size: 18px;
+    color: #757575;
+    line-height: 30px;
+    margin-bottom: 30px;
+}
+```
+
+> `line-height: 30px` adds space between lines making the paragraph easier to read. `#757575` is a lighter grey — less important than the heading, so it visually steps back.
+
+### 7.6 Profile Image
+
+```css
+#banner .banner-image img {
+    max-width: 585px;
+    vertical-align: middle;
+}
+```
+
+> `max-width` instead of `width` — the image will never exceed 585px but can shrink on smaller screens. `vertical-align: middle` removes the small gap browsers add below inline images by default.
+
+### 7.7 Button Updates
+
+```css
+.btn {
+    background-color: #FD6E0A;
+    border: none;
+    padding: 18px 35px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;       /* ← added */
+    cursor: pointer;    /* ← added */
+}
+```
+
+> `color: white` was added — without it, the button text inherits a dark colour from the parent. `cursor: pointer` shows a hand cursor so users know it's clickable.
+
+---
+
+## ✅ Updated Progress Checklist
+
+- [x] Git repository created
+- [x] Folder & file structure set up
+- [x] Google Font linked
+- [x] Navbar HTML + CSS ✅
+- [x] Background images on header (`developer.png`, `header_bg.png`)
+- [x] Hero section HTML structure
+- [x] `id="banner"` on section
+- [x] Banner content — greeting, name, description
+- [x] Two CTA buttons (Download CV, Contact)
+- [x] Profile image on the right
+- [x] **Page 1 Complete** 🎉
+- [ ] Portfolio section (next page)
+- [ ] About / Skills section
+- [ ] Footer
+
+---
+
+## 📌 New Concepts from Hero Section
+
+| Concept | Where used |
+|---|---|
+| `id` selector (`#banner`) | Targets the unique hero section |
+| Multiple background images | `developer.png` + `header_bg.png` layered |
+| `../` in file path | Going up a folder from `Styles/` to `images/` |
+| `background-position` with multiple values | Pinning each bg image to a corner |
+| `line-height` | Improves readability of paragraph text |
+| `vertical-align: middle` | Removes gap below inline images |
+| `max-width` on image | Image shrinks on small screens but never grows too big |
+| `<h1>` vs `<h2>` hierarchy | Name = h1 (most important), greeting = h2 |
+| `margin-bottom` | Spacing between heading, paragraph, and buttons |
+
+---
+
+### 💻 After this 
+![Current Output — Chomok Portfolio Navbar](1stpage.png)
